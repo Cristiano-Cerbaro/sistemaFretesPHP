@@ -1,0 +1,121 @@
+<?php
+$db_host = 'localhost'; // Server Name
+$db_user = 'root'; // Username
+$db_pass = ''; // Password
+$db_name = 'Fretes'; // Database Name
+
+$conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+if (!$conn) {
+	die ('Failed to connect to MySQL: ' . mysqli_connect_error());	
+}
+ 
+// MySQL Query to get data
+$sql = "SELECT
+Case i.nfipedido when
+0 then 'Sem Pedido'
+else i.nfipedido
+END as PEDIDO,
+
+Case i.nfipedido When
+0 then 'Diversos'
+else i.nfidescricao
+END as MATERIAL,
+
+Case i.nfipedido When
+0 then 'Diversos'
+else n.nfclientepedido
+END as CLIENTE,
+
+COUNT(DISTINCT n.nfnumero) as QTD_Notas,
+
+Count(case when c.confrete is null then 1 end) as Fretes_Zerados,
+
+sum(i.nfitotal) as Valor_Enviado,
+
+n.nftransportadornome as Transportador,
+
+Cast(coalesce(sum((c.confrete)*(i.nfiporcentovalor/100)),0) as DECIMAL(7,2)) as Frete,
+
+Cast(SUM(i.nfiporcentoenvio)as DECIMAL(5,2)) as Porcento_Envio,
+
+Cast(coalesce(((co.cobvalor+co.cobfretedestacado)*sum(i.nfiporcentoenvio)/100),0) as DECIMAL(7,2)) as Frete_Orcado,
+
+Cast(coalesce(((coalesce(co.cobvalor+co.cobfretedestacado,0)*SUM(i.nfiporcentoenvio)/100)
+- coalesce(sum((c.confrete)*(i.nfiporcentovalor/100)),0)),0) as DECIMAL(7,2))
+as Diferenca
+
+FROM notasfiscaisitens i
+LEFT JOIN notasfiscais n on n.nfnumero = i.nfinota
+LEFT JOIN conhecimentos c on c.connota = n.nfnumero
+LEFT JOIN cobrancas co on co.cobpedido = i.nfipedido
+WHERE
+n.nfcodempresa not in (15,9551,5094)
+and n.nftipofrete in ('EMITENTE')
+and n.nfemissao between '2017-07-01' and '2017-07-07'
+group by Pedido desc";
+
+		
+$query = mysqli_query($conn, $sql);
+
+if (!$query) {
+	die ('SQL Error: ' . mysqli_error($conn));
+}
+?>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relatório de Logistica Mensal</title>
+    <link rel="stylesheet" href="style2.css">
+  </head>
+  <body>
+    <h1 align="center">Relatório de Logistica</h1>
+    <h2 align="center">Periodo de Referência: Julho/2017</h2>
+    <hr>
+    <h3> Logistica Externa:</h3>
+    <ul type="square"> 
+      <li>Transportadores: R$ 1111111,00</li>
+      <li>Malotes/Provas: R$ 1111111,00</li>
+      <li>Cortesias: R$ 1111111,00</li>
+    </ul>
+    <p><strong>&emsp;Total: </strong> R$ 1000000.000</p>
+    <hr>
+    <h3> Logistica Interna:</h3>
+    <ul type="square"> 
+      <li>Transportador Local: R$ 1111111,00</li>
+      <li>Combustivel: R$ 1111111,00</li>
+      <li>Correio: R$ 1111111,00</li>
+      <li>Manutenções: R$ 1111111,00</li>
+      <li>Diversos: R$ 1111111,00</li>
+    </ul>
+    <p>&emsp;<strong>Total: </strong> R$ 1000000.000</p>
+    <hr>
+    <h3> Frete Orçado:</h3>
+    <p><strong>&emsp;Total: </strong> R$ 1000000.000</p>
+    <hr>
+    <h2> Resultado</h2>
+    <ul type="square"> 
+      <li><strong>Frete Orçado: R$ 1111111,00</strong></li>
+      <ul>
+        <li> - Transportadores: R$ 1111111,00</li> 
+        <li> - Transportador Local: R$ 1111111,00</li> 
+      </ul>
+      <strong>Total: </strong> R$ 1111111,00
+  <hr align=left width=400>
+    <ul>
+        <li> - Combustivel: R$ 1111111,00</li>
+        <li> - Correio: R$ 1111111,00</li>
+        <li>- Manutenções: R$ 1111111,00</li>
+        <li>- Diversos: R$ 1111111,00</li>
+    </ul>
+      <hr align=left width=400> 
+      <strong>Total Geral: </strong> R$ 1111111,00
+    </ul> 
+    
+    <p>
+      Gerado em: <strong>10/08/2017 - 15:53</strong>
+    </p>
+  </body>
+</html>

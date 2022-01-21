@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relatório Logistica</title>
+    <link rel="stylesheet" href="style2.css">
+  </head>
+  <body>
+  <strong>
+    <h1 align="Center"><mark>Selecione Abaixo seu Relatorio:</mark></h1>
+    <h2><a href="relatoriopedidos.php">Relatório de Pedidos</h2></a>
+	<form action="relatoriopedidosinformacao.php" method="get">
+      <fieldset>
+      <legend>Notas Fiscais de Pedidos Especificos:</legend>
+        Informe o Pedido:  <input placeholder="Pedido" type="text" name="pedido"><font size=2> <i>&ensp;Para mais que um pedido, separar com virgula </i></font>
+		<br>
+		Informe o Nome do Cliente:  <input placeholder="Nome do Cliente" type="text" name="cliente"> ou o código do cliente 
+		<input placeholder="Código do Cliente" type="text" name="codcliente">
+		<br>
+		Informe o Mês: <input type="Month" name="mes" value="mes">   
+		<br> <input type="checkbox" id="checkestoque" name="estoque" value="S" checked="false">
+		<label for="checkestoque" > <font color="Orange"> Incluir itens de ESTOQUE        </font></label>
+		 <input type="checkbox" id="checktransportador" name="transportador" value="S" checked="false">
+		<label for="checktransportador" > <font color="Orange"> Incluir Transportes via Serafinense/Favero/Viaje Seguro        </font></label>
+        <input type="submit" value="Gerar">
+      </fieldset>
+    </form>
+    <h2><a href="relatorionotasfiscais.php">Relatório de Notas Fiscais - Transportadores</h2></a>
+    <form action="relatorionotasinformacao.php" method="get">
+      <fieldset>
+      <legend>Notas Fiscais de Pedidos Especificos:</legend>
+        Informe o Pedido:  <input placeholder="Pedido" type="text" name="pedido"><font size=2><i> &ensp;Para mais que um pedido, separar com virgula </i></font>
+		<br>
+		Informe o Numero da Nota:  <input placeholder="Nota" type="text" name="nota"><font size=2> <i>&ensp;Para mais que uma Nota, separar com virgula </i></font>
+		<br>
+		Informe o Nome do Cliente:  <input placeholder="Nome do Cliente" type="text" name="cliente"> ou o código do cliente 
+		<input placeholder="Código do Cliente" type="text" name="codcliente">
+		<br>
+		Informe o Mês: <input type="Month" name="mes" value="mes">
+        <input type="submit" value="Gerar">
+      </fieldset>
+    </form>
+		 <h2>Relatório Mensal:<font color=green size=2> &ensp;Este relatório normalmente demora para ser gerado devido a grande quantidade de informações processadas</font></h2>
+    <form action="logisticamensal.php" method="get">
+      <fieldset>
+        <legend>Dados Necessários:</legend>
+        Mês:
+        <input type="Month" name="mes" value="mes">
+        <input type="submit" value="Gerar">
+      </fieldset>
+    </form>
+		 <h2>Relatório Transportadores:<font color=green size=2> &ensp;Este relatório normalmente demora para ser gerado devido a grande quantidade de informações processadas</font></h2>
+    <form action="relatoriotransportador.php" method="get">
+      <fieldset>
+        <legend>Dados Necessários:</legend>
+        Mês:
+        <input type="Month" name="mes" value="mes">
+        <input type="submit" value="Gerar">
+      </fieldset>
+    </form>
+	<h2><a href="relatoriotarifas.php">Relatório de Tarifas</a></h2>
+	<hr>
+	<h2><a href="relatoriopedidosinformacao.php?estoque=Somente">Itens de Estoque</a></h2>
+	   <form action="relatoriopedidosinformacao.php" method="get">
+      <fieldset>
+      <legend>Itens de Estoque Especificos:</legend>
+		Informe o Mês: <input type="Month" name="mes" value="mes">
+        <input type="submit" value="Gerar">
+		<input id="estoque" name="estoque" type="hidden" value="Somente">
+      </fieldset>
+    </form>
+    <hr>
+	 <h2>Compras na Modalidade FOB:</h2>
+    <form action="relatoriocompras.php" method="get">
+      <fieldset>
+        <legend>Dados Necessários:</legend>
+        Mês:
+        <input type="Month" name="mes" value="mes">
+        <input type="submit" value="Gerar">
+      </fieldset>
+    </form>
+  </body>
+</html>
